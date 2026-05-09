@@ -1,0 +1,40 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+.TopHeader{
+    background: #fff;
+    padding: 24px 70px;
+    border-bottom: 1px solid #ddd;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.mainMenu ul li a{
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+    text-transform: uppercase;
+}
+.Herobanner{
+width: 100%;
+  height: 850px;
+  background: url("/static/img/bg/home-bg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.authButton button {
+   margin-left: 15px;
+   padding: 9px;
+   font-size: 16px;
+   font-weight: 500; 
+   color: #fff;
+   border:none;
+   border-radius: 3px;
+}
+.authButton .loginbtn{
+    background-color: rgb(1, 87, 98);
+}
+.authButton .signUp{
+    background-color: rgb(163, 6, 230);
+}

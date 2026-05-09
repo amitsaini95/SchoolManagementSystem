@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,31 +9,42 @@
 </head>
 
 <body>
-    <header>
-        <div class="container">
-            <div class="row">
+    <header class="TopHeader">
+        <div class="container-fluid">
+            <div class="row mt-2">
                 <div class="col-3">
-                    <h6>School Management System</h6>
+                    <figure>
+                        <img src="{% static 'img/logo.png' %}">
+                    </figure>
                 </div>
-                <div class="col-9">
-                    <nav>
-                        <ul class="nav justify-content-center">
-                            
+                <div class="col-6 ">
+                    <nav class=" mainMenu">
+                        <ul class="nav">
+
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">About</a>
                             </li>
-                              <li class="nav-item">
-                                <a class="nav-link" href="#">Login</a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Course</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Sign Up</a>
+                                <a class="nav-link" href="#">Blog</a>
                             </li>
-                      
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Contact</a>
+                            </li>
+
                         </ul>
                     </nav>
+                </div>
+                <div class="col-3">
+                    <div class="authButton ">
+                        <button class="loginbtn">Login</button>
+                        <button class="signUp">Sign Up</button>
+                    </div>
                 </div>
             </div>
         </div>

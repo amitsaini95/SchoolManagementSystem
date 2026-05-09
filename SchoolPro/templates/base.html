@@ -1,13 +1,36 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}School Management System {% endblock %}</title>
     <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
 </head>
+
 <body>
-   {% include 'header.html' %}
+    {% include 'header.html' %}
+    <!-- <section>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 Herobanner">
+                    <div class="row heroSection ">
+                        <div class="col-8 heroText">
+                            <h1>
+                                <span>Smart Study</span> Where Knowledge Meets the Web
+                            </h1>
+                        </div>
+                        <div class="col-4 heroImage">
+                            <img src="{% static 'img/home-img2.png' %}">
+                        </div>
+                    </div>s
+                </div>
+
+            </div>
+        </div>
+    </section> -->
 </body>
+
 </html>
