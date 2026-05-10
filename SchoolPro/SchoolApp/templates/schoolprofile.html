@@ -1,0 +1,8 @@
+{% extends 'core.html' %}
+{% block DashBoard %}
+<form method="post" action="">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit" class="btn btn-primary my-2">Update</button>
+</form>
+{% endblock %}
