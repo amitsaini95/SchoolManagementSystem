@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'BaseApp',
-    'SchoolApp.apps.SchoolappConfig'
+    'SchoolApp.apps.SchoolappConfig',
+    'StudentApp'
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -15,7 +15,7 @@ def LoginView(request):
             if user is  not None: 
                 login(request,user)
         
-                return redirect('Dashboard')
+                return redirect('SchoolApp:Dashboard')
     else:   
             form=LoginForm()
     return  render(request,'login.html',{'form':form})
