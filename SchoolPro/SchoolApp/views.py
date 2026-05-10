@@ -16,4 +16,9 @@ def SchoolProfileView(request):
     }
     return render(request,"schoolprofile.html",context)
 def DashboardView(request):
-    return render(request,"dashboard.html")
+    schoolstudentCount=SchoolProfileModel.objects.get(admin=request.user).students.all().count()
+    context={
+        'schoolstudentCount':schoolstudentCount
+    }
+    
+    return render(request,"dashboard.html",context)

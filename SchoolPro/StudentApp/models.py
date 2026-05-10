@@ -1,5 +1,5 @@
 from django.db import models
-from SchoolApp.models import SchoolProfileModel
+from SchoolApp.models import *
 from django.contrib.auth.models import User
 # Create your models here.
 GENDER=(
@@ -13,7 +13,7 @@ class StudentProfileModel(models.Model):
     age=models.IntegerField()
     gender=models.CharField(max_length=10,choices=GENDER)
     phoneNo=models.IntegerField()
-    schoolName=models.ForeignKey(SchoolProfileModel, on_delete=models.CASCADE)
+    schoolName=models.ForeignKey('SchoolApp.SchoolProfileModel', on_delete=models.CASCADE,related_name="schoolName")
     email=models.EmailField(max_length=100)
     
     def __str__(self):
