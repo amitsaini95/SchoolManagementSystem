@@ -22,3 +22,10 @@ def DashboardView(request):
     }
     
     return render(request,"dashboard.html",context)
+def StudentListView(request):
+    schoolstudentList=SchoolProfileModel.objects.get(admin=request.user).students.all()
+    context={
+        'schoolstudentList':schoolstudentList
+    }
+    
+    return render(request,"studentList.html",context)

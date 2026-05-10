@@ -1,0 +1,31 @@
+{% extends 'core.html' %}
+{% block DashBoard %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">S.No</th>
+      <th scope="col">Name</th>
+      <th scope="col">Age</th>
+      <th scope="col">Gender</th>
+      <th scope="col">Email</th>
+      <th scope="col">phone No</th>
+      <th scope="col">School Name</th>
+
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for student in schoolstudentList %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{student.name}}</td>
+      <td>{{student.age}}</td>
+      <td>{{student.gender}}</td>
+      <td>{{student.email}}</td>
+      <td>{{student.phoneNo}}</td>
+      <td>{{student.schoolName}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

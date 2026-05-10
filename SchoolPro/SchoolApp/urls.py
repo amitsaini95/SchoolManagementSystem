@@ -3,5 +3,6 @@ from .import views
 app_name="SchoolApp"
 urlpatterns=[
     path('schoolProfile',views.SchoolProfileView,name="schoolprofile"),
-    path('',views.DashboardView,name="Dashboard")
+    path('',views.DashboardView,name="Dashboard"),
+    path('studentList',views.StudentListView,name="StudentList")
 ]
