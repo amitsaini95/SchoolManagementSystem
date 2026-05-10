@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from .forms import SchoolForm
 from .models import SchoolProfileModel
+from StudentApp.models import StudentProfileModel
+from StudentApp.forms import StudentProfileForm
 # Create your views here.
 def SchoolProfileView(request):
     schoolInstance=SchoolProfileModel.objects.get(admin=request.user)
@@ -29,3 +31,17 @@ def StudentListView(request):
     }
     
     return render(request,"studentList.html",context)
+def StudentProfileUpdateView(request,id):
+    schoolStudentInstance=StudentProfileModel.objects.get(id=id)
+    if request.method =="POST":
+        form=StudentProfileForm(request.POST,instance=schoolStudentInstance)
+        if form.is_valid():
+            form.save()
+            return redirect('SchoolApp:Dashboard')
+    else:
+        form=StudentProfileForm(instance=schoolStudentInstance)
+    context={
+        'form':form
+    }
+   
+    return render(request,"studentprofileUpdate.html",context)

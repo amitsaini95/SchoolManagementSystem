@@ -1,6 +1,6 @@
 {% extends 'core.html' %}
 {% block DashBoard %}
-<table class="table">
+<table class="table  table-striped">
   <thead>
     <tr>
       <th scope="col">S.No</th>
@@ -10,6 +10,9 @@
       <th scope="col">Email</th>
       <th scope="col">phone No</th>
       <th scope="col">School Name</th>
+      <th scope="col" >Action</th>
+
+
 
 
     </tr>
@@ -24,6 +27,9 @@
       <td>{{student.email}}</td>
       <td>{{student.phoneNo}}</td>
       <td>{{student.schoolName}}</td>
+      <td><a href="{% url 'SchoolApp:StudentProfileUpdate' student.id %}"><i class="bi bi-pencil-square"></i></a> <i class="bi bi-trash3-fill"></i></td>
+ 
+
     </tr>
     {% endfor %}
   </tbody>
