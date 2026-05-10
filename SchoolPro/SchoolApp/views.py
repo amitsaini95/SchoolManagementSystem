@@ -3,9 +3,12 @@ from .forms import SchoolForm
 from .models import SchoolProfileModel
 from StudentApp.models import StudentProfileModel
 from StudentApp.forms import StudentProfileForm
+from django.contrib.auth.models import User
+# Create your views here.
 # Create your views here.
 def SchoolProfileView(request):
     schoolInstance=SchoolProfileModel.objects.get(admin=request.user)
+    
     if request.method =="POST":
         form=SchoolForm(request.POST,instance=schoolInstance)
         if form.is_valid():
@@ -45,3 +48,27 @@ def StudentProfileUpdateView(request,id):
     }
    
     return render(request,"studentprofileUpdate.html",context)
+def AddStudentView(request):
+    
+    schoolName=SchoolProfileModel.objects.get(admin=request.user)
+    if request.method =="POST":
+        form=StudentProfileForm(request.POST)
+        if form.is_valid():
+            username=form.cleaned_data['name']
+            studentUser=User.objects.create_user(username=username)
+            password=username[:3]+"@123"
+            studentUser.set_password(password)
+            studentUser.save()
+            data=form.save(commit=False)
+            data.user=studentUser
+            data.save()
+            schoolName.students.add(data)
+            schoolName.save()
+       
+            return redirect('SchoolApp:Dashboard')
+    else:
+        form=StudentProfileForm()
+    context={
+        'form':form
+    }
+    return render(request,"addstudent.html",context)

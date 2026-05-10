@@ -1,5 +1,15 @@
 {% extends 'core.html' %}
 {% block DashBoard %}
+
+<div class="row">
+  <div class="col-12 my-2 text-end">
+    <a href="{% url 'SchoolApp:AddStudent' %}">
+    <button class="btn btn-dark">Add Student</button>
+    </a>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
 <table class="table  table-striped">
   <thead>
     <tr>
@@ -11,9 +21,6 @@
       <th scope="col">phone No</th>
       <th scope="col">School Name</th>
       <th scope="col" >Action</th>
-
-
-
 
     </tr>
   </thead>
@@ -34,4 +41,6 @@
     {% endfor %}
   </tbody>
 </table>
+</div>
+</div>
 {% endblock %}
