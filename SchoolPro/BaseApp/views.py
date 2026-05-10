@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .forms import LoginForm
 from django.contrib.auth  import authenticate, login,logout 
 # Create your views here.
@@ -15,7 +15,9 @@ def LoginView(request):
             if user is  not None: 
                 login(request,user)
         
-                return HttpResponseRedirect('/')
+                return redirect('Dashboard')
     else:   
             form=LoginForm()
     return  render(request,'login.html',{'form':form})
+def DashboardView(request):
+    return render(request,"dashboard.html")

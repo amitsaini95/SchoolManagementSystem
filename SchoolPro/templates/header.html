@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}School Management System{% endblock %}</title>
+    
 </head>
 
 <body>
@@ -42,7 +43,9 @@
                 </div>
                 <div class="col-2 text-end ">
                     <div class="authButton ">
+                        <a href="{% url 'Login' %}">
                         <button class="loginbtn">Login</button>
+                        </a>
                         <button class="signUp">Sign Up</button>
                     </div>
                 </div>

@@ -1,0 +1,21 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+.leftSideNav{
+
+    background-color: brown;
+    height: 100vh;
+
+}
+.leftSideMenu{
+  
+    height: 100vh;
+    background-color: rgb(13, 29, 43);
+    color: #fff;
+
+}
+.leftSideMenu nav {
+    padding-top: 50px;
+}
