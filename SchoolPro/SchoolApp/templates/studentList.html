@@ -1,16 +1,23 @@
 {% extends 'core.html' %}
 {% block DashBoard %}
-
-<div class="row">
-  <div class="col-12 my-2 text-end">
+<div class="row">  
+  <div class="col-4 my-2 ">
+   <form method="get">
+    <input type="search" placeholder="search for student Name" class="searchBox" name="studentName">
+    <button type="submit" class="btn btn-secondary">Search</button>
+   </form>
+  </div>
+  <div class="col-8 my-2 ">
     <a href="{% url 'SchoolApp:AddStudent' %}">
     <button class="btn btn-dark">Add Student</button>
     </a>
   </div>
+  
 </div>
 <div class="row">
   <div class="col-12">
-<table class="table  table-striped">
+  {% if schoolstudentList %}
+<table class="table  table-striped border">
   <thead>
     <tr>
       <th scope="col">S.No</th>
@@ -25,6 +32,7 @@
     </tr>
   </thead>
   <tbody>
+    
     {% for student in schoolstudentList %}
     <tr>
       <th scope="row">{{forloop.counter}}</th>
@@ -34,7 +42,9 @@
       <td>{{student.email}}</td>
       <td>{{student.phoneNo}}</td>
       <td>{{student.schoolName}}</td>
-      <td><a href="{% url 'SchoolApp:StudentProfileUpdate' student.id %}"><i class="bi bi-pencil-square"></i></a> <i class="bi bi-trash3-fill"></i></td>
+      <td><a href="{% url 'SchoolApp:StudentProfileUpdate' student.id %}"><i class="bi bi-pencil-square text-warning  px-2"></i></a>
+       <a href="{% url 'SchoolApp:DeleteStudent' student.id %}"><i class="bi bi-trash3-fill text-danger px-2"></i></a>
+      </td>
  
 
     </tr>
@@ -42,5 +52,6 @@
   </tbody>
 </table>
 </div>
+{% endif %}
 </div>
 {% endblock %}

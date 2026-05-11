@@ -6,5 +6,7 @@ urlpatterns=[
     path('',views.DashboardView,name="Dashboard"),
     path('studentList',views.StudentListView,name="StudentList"),
     path('StudentProfileUpdate/<int:id>',views.StudentProfileUpdateView,name="StudentProfileUpdate"),
-    path('addStudent',views.AddStudentView,name="AddStudent")
+    path('addStudent',views.AddStudentView,name="AddStudent"),
+    path('deleteStudent/<int:id>',views.DeleteStudentView,name="DeleteStudent")
+    
 ]
