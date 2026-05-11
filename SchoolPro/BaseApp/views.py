@@ -33,7 +33,11 @@ def schoolSignUpView(request):
         form=SchoolForm(request.POST)
         if form.is_valid():
             username=form.cleaned_data['name']
+<<<<<<< HEAD
             user=User.objects.create_user(username=username,userType="school")
+=======
+            user=User.objects.create_user(username=username,userType="School")
+>>>>>>> b2c084602b28acf29cfc940bb484ffbadc2d8282
             user.set_password(username[:3]+"@123")
             user.save()
             data=form.save(commit=False)
@@ -60,8 +64,12 @@ def studentSignUpView(request):
     context={
         'form':form
     }     
+<<<<<<< HEAD
     return render(request,"studentSignup.html",context)
 
 def LogoutView(request):
     logout(request)
     return redirect('BaseApp:Home')
+=======
+    return render(request,"studentSignup.html",context)
+>>>>>>> b2c084602b28acf29cfc940bb484ffbadc2d8282
