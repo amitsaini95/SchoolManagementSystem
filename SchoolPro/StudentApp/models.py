@@ -1,6 +1,6 @@
 from django.db import models
 from SchoolApp.models import *
-from django.contrib.auth.models import User
+from BaseApp.models import User
 # Create your models here.
 GENDER=(
     ('Male','Male'),

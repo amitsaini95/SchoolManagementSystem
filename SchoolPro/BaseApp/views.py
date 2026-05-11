@@ -3,7 +3,8 @@ from .forms import LoginForm
 from SchoolApp.forms import SchoolForm
 from django.contrib.auth  import authenticate, login,logout 
 # Create your views here.
-from django.contrib.auth.models import User
+from StudentApp.forms import StudentProfileForm
+from .models import User
 from django.http import HttpResponseRedirect,HttpResponse
 def HomeView(request):
     return render(request,"base.html")
@@ -16,8 +17,11 @@ def LoginView(request):
             user = authenticate(username=uname,password=upass)
             if user is  not None: 
                 login(request,user)
-        
-                return redirect('SchoolApp:Dashboard')
+                auth=User.objects.get(id=user.id)
+                if auth.userType=="student":
+                    return redirect('StudentApp:StudentDashboard')
+                elif auth.userType=="school":
+                    return redirect('SchoolApp:Dashboard')
     else:   
             form=LoginForm()
     return  render(request,'login.html',{'form':form})
@@ -25,12 +29,11 @@ def LoginView(request):
 def showsignbuttonList(request):
     return render(request,"showsignbuttonList.html")
 def schoolSignUpView(request):
-    print("school")
     if request.method == "POST":
         form=SchoolForm(request.POST)
         if form.is_valid():
             username=form.cleaned_data['name']
-            user=User.objects.create_user(username=username)
+            user=User.objects.create_user(username=username,userType="School")
             user.set_password(username[:3]+"@123")
             user.save()
             data=form.save(commit=False)
@@ -40,3 +43,21 @@ def schoolSignUpView(request):
     else:
         form=SchoolForm()
     return render(request,"schoolSignup.html",context={'form':form})
+def studentSignUpView(request):
+    if request.method == "POST":
+        form=StudentProfileForm(request.POST)
+        if form.is_valid():
+            username=form.cleaned_data['name']
+            user=User.objects.create_user(username=username,userType="student")
+            user.set_password(username[:3]+"@123")
+            user.save()
+            data=form.save(commit=False)
+            data.user=user
+            data.save()
+            return redirect('BaseApp:Login')
+    else:
+        form=StudentProfileForm()
+    context={
+        'form':form
+    }     
+    return render(request,"studentSignup.html",context)

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from BaseApp.models import User
 from StudentApp.models import StudentProfileModel
 # Create your models here.
 class SchoolProfileModel(models.Model):
@@ -8,7 +8,7 @@ class SchoolProfileModel(models.Model):
     code=models.IntegerField()
     SchoolEmail=models.EmailField(max_length=100)
     SchoolPhoneNo=models.IntegerField()
-    students=models.ManyToManyField(StudentProfileModel,related_name="Students")
+    students=models.ManyToManyField(StudentProfileModel,related_name="Students",blank=True)
     SchoolAddress=models.TextField()
     SchoolEmail=models.EmailField(max_length=100)
     PrincipleName=models.CharField(max_length=100)
