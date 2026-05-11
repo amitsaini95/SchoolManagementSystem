@@ -31,7 +31,7 @@ def DashboardView(request):
 def StudentListView(request):
     schoolStudent=SchoolProfileModel.objects.get(admin=request.user)
     q=request.GET.get('studentName')  if request.GET.get('studentName') != None else ''
-    schoolstudentList=schoolStudent.students.filter(Q(name__icontains=q))
+    schoolstudentList=schoolStudent.students.filter(Q(name__icontains=q) | Q(email__icontains=q))
     context={
             'schoolstudentList':schoolstudentList
     }
@@ -41,7 +41,17 @@ def StudentProfileUpdateView(request,id):
     if request.method =="POST":
         form=StudentProfileForm(request.POST,instance=schoolStudentInstance)
         if form.is_valid():
-            form.save()
+            username=form.cleaned_data['name']
+            password=username[:3]+"@123"
+            userprofile=User.objects.get(username=schoolStudentInstance.user)
+            userprofile.username=username
+
+            userprofile.set_password(password)
+            userprofile.save()
+
+            data=form.save(commit=False)
+            data.user=userprofile
+            data.save()
             return redirect('SchoolApp:Dashboard')
     else:
         form=StudentProfileForm(instance=schoolStudentInstance)
