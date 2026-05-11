@@ -3,7 +3,7 @@ from .forms import SchoolForm
 from .models import SchoolProfileModel
 from StudentApp.models import StudentProfileModel
 from StudentApp.forms import StudentProfileForm
-from django.contrib.auth.models import User
+from BaseApp.models import User
 from django.db.models import Q
 # Create your views here.
 # Create your views here.

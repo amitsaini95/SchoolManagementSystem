@@ -10,7 +10,7 @@
 
 }
 .leftSideMenu{
-  
+  position: relative;
     height: 100vh;
     background-color: rgb(13, 29, 43);
     color: #fff;
@@ -18,4 +18,9 @@
 }
 .leftSideMenu nav {
     margin-top: 50px;
+}
+.LogoutBtn{
+    position: absolute;
+    left:10px;
+    bottom: 0px;
 }

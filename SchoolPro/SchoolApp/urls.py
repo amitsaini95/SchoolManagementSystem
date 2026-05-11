@@ -9,4 +9,5 @@ urlpatterns=[
     path('addStudent',views.AddStudentView,name="AddStudent"),
     path('deleteStudent/<int:id>',views.DeleteStudentView,name="DeleteStudent")
     
+    
 ]

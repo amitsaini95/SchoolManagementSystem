@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'BaseApp.apps.BaseappConfig',
     'SchoolApp.apps.SchoolappConfig',
-    'StudentApp'
+    'StudentApp.apps.StudentappConfig'
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -120,3 +120,4 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS=[
     BASE_DIR /"static"
 ]
+AUTH_USER_MODEL="BaseApp.User"
