@@ -1,0 +1,17 @@
+{% extends 'base.html'%}
+{% block content %}
+<div class="container">
+<div class="row mt-3">
+<div class="col-4 bg-light">
+    <a href="{% url 'BaseApp:SchoolSignUp' %}">
+<button class="SchoolsignUp btn btn-dark">School </button>
+    </a>
+</div>
+<div class="col-4">
+<button class="StudentsignUp  btn btn-success">Student </button>
+</div>
+
+</div>
+</div>
+
+{% endblock %}

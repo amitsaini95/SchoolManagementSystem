@@ -9,7 +9,6 @@ from django.db.models import Q
 # Create your views here.
 def SchoolProfileView(request):
     schoolInstance=SchoolProfileModel.objects.get(admin=request.user)
-    
     if request.method =="POST":
         form=SchoolForm(request.POST,instance=schoolInstance)
         if form.is_valid():
@@ -26,7 +25,6 @@ def DashboardView(request):
     context={
         'schoolstudentCount':schoolstudentCount
     }
-    
     return render(request,"dashboard.html",context)
 def StudentListView(request):
     schoolStudent=SchoolProfileModel.objects.get(admin=request.user)
@@ -45,10 +43,8 @@ def StudentProfileUpdateView(request,id):
             password=username[:3]+"@123"
             userprofile=User.objects.get(username=schoolStudentInstance.user)
             userprofile.username=username
-
             userprofile.set_password(password)
             userprofile.save()
-
             data=form.save(commit=False)
             data.user=userprofile
             data.save()
@@ -58,10 +54,8 @@ def StudentProfileUpdateView(request,id):
     context={
         'form':form
     }
-   
     return render(request,"studentprofileUpdate.html",context)
 def AddStudentView(request):
-    
     schoolName=SchoolProfileModel.objects.get(admin=request.user)
     if request.method =="POST":
         form=StudentProfileForm(request.POST)
@@ -76,7 +70,6 @@ def AddStudentView(request):
             data.save()
             schoolName.students.add(data)
             schoolName.save()
-       
             return redirect('SchoolApp:Dashboard')
     else:
         form=StudentProfileForm()

@@ -43,10 +43,12 @@
                 </div>
                 <div class="col-2 text-end ">
                     <div class="authButton ">
-                        <a href="{% url 'Login' %}">
+                        <a href="{% url 'BaseApp:Login' %}">
                         <button class="loginbtn">Login</button>
                         </a>
+                        <a href="{% url 'BaseApp:showsignbuttonList' %}">
                         <button class="signUp">Sign Up</button>
+                        </a>
                     </div>
                 </div>
             </div>
