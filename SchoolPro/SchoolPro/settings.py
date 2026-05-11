@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'BaseApp.apps.BaseappConfig',
     'SchoolApp.apps.SchoolappConfig',
-    'StudentApp.apps.StudentappConfig'
+    'StudentApp.apps.StudentappConfig',
+    'TeacherApp'
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
