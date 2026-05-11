@@ -86,5 +86,7 @@ def AddStudentView(request):
     return render(request,"addstudent.html",context)
 def DeleteStudentView(request,id):
     schoolstudent=StudentProfileModel.objects.get(id=id)
+    user=User.objects.get(id=schoolstudent.user.id)
     schoolstudent.delete()
+    user.delete()
     return redirect('SchoolApp:StudentList')
