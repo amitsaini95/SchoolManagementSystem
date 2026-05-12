@@ -18,11 +18,11 @@ class CourseModel(models.Model):
 class StudentProfileModel(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE,blank=True,null=True)
     name=models.CharField(max_length=50)
-    age=models.IntegerField()
+    age=models.IntegerField(null=True)
     studentClass=models.CharField(max_length=50)
     gender=models.CharField(max_length=10,choices=GENDER)
     course=models.ForeignKey(CourseModel,on_delete=models.CASCADE,related_name="studentCourses",blank=True,null=True)
-    phoneNo=models.IntegerField()
+    phoneNo=models.IntegerField(null=True)
     schoolName=models.ForeignKey('SchoolApp.SchoolProfileModel', on_delete=models.CASCADE,related_name="schoolName",blank=True,null=True)
     email=models.EmailField(max_length=100)
     created=models.DateTimeField(auto_now_add=True)
