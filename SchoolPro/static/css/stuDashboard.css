@@ -1,0 +1,15 @@
+*{
+    margin:0px;
+    padding:0px;
+}
+.LeftSideStuDash{
+    background: rgb(22, 26, 76);
+    height: 100vh;
+    padding:30px 0px;
+    width: 13%;
+}
+.studentNavbarMenu ul li a{
+    color:#fff;
+    padding:10px 0px;
+    text-align: center;
+}

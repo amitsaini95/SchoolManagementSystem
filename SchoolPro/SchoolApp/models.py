@@ -8,7 +8,7 @@ class SchoolProfileModel(models.Model):
     code=models.IntegerField()
     SchoolEmail=models.EmailField(max_length=100)
     SchoolPhoneNo=models.IntegerField()
-    students=models.ManyToManyField(StudentProfileModel,related_name="Students",blank=True,null=True)
+
     SchoolAddress=models.TextField()
     SchoolEmail=models.EmailField(max_length=100)
     PrincipleName=models.CharField(max_length=100)
