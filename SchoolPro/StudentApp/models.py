@@ -39,18 +39,32 @@ class StudentProfileModel(models.Model):
         return self.name
 
 class SubjectModel(models.Model):
+
+    name = models.CharField(max_length=255)
     course = models.ForeignKey('CourseModel', on_delete=models.DO_NOTHING, null=True, blank=False)
     session = models.ForeignKey('SessionModel', on_delete=models.DO_NOTHING, null=True)
-
+    created=models.DateTimeField(auto_now_add=True)
+    updated=models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.course.name
 
-class Attendance(models.Model):
-    user=models.OneToOneField('StudentProfileModel', on_delete=models.CASCADE)
-    subject = models.ForeignKey('SubjectModel', on_delete=models.DO_NOTHING)
+  
+class AttendanceSubjectModel(models.Model):
+    # Subject Attendance
+    subject = models.ForeignKey(SubjectModel, on_delete=models.DO_NOTHING)
+    attendanceDate = models.DateField()
+    sessionYearId = models.ForeignKey(SessionModel, on_delete=models.CASCADE)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    updatedAt = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return str(self.user)
+
+class AttendanceReport(models.Model):
+    # Individual Student Attendance
+    student = models.ForeignKey(StudentProfileModel, on_delete=models.DO_NOTHING)
+    attendanceId = models.ForeignKey(AttendanceSubjectModel, on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    updatedAt = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
