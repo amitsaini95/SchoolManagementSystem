@@ -6,6 +6,7 @@ from StudentApp.forms import StudentProfileForm
 from BaseApp.models import User
 from django.db.models import Q
 # Create your views here.
+
 # Create your views here.
 def SchoolProfileView(request):
     schoolInstance=SchoolProfileModel.objects.get(admin=request.user)
@@ -13,6 +14,7 @@ def SchoolProfileView(request):
         form=SchoolForm(request.POST,instance=schoolInstance)
         if form.is_valid():
             form.save()
+           
             return redirect('SchoolApp:Dashboard')
     else:
         form=SchoolForm(instance=schoolInstance)

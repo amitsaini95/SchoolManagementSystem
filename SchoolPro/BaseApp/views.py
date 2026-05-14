@@ -4,10 +4,12 @@ from SchoolApp.forms import SchoolForm
 from django.contrib.auth  import authenticate, login,logout 
 # Create your views here.
 from StudentApp.forms import StudentProfileForm
+from django.contrib import messages
+
 from .models import User
 from django.http import HttpResponseRedirect,HttpResponse
 def HomeView(request):
-    return render(request,"base.html")
+    return render(request,"home.html")
 def LoginView(request):
     if request.method == "POST":
         form=LoginForm(request=request,data=request.POST)
@@ -23,7 +25,7 @@ def LoginView(request):
                 elif auth.userType=="school":
                     return redirect('SchoolApp:Dashboard')
     else:   
-            form=LoginForm()
+        form=LoginForm()
     return  render(request,'login.html',{'form':form})
 
 def showsignbuttonList(request):
@@ -33,12 +35,13 @@ def schoolSignUpView(request):
         form=SchoolForm(request.POST)
         if form.is_valid():
             username=form.cleaned_data['name']
-            user=User.objects.create_user(username=username,userType="school")
+            user,created=User.objects.get_or_create(username=username,userType="school")
             user.set_password(username[:3]+"@123")
             user.save()
             data=form.save(commit=False)
             data.admin=user
             data.save()
+         
             return redirect('BaseApp:Login')
     else:
         form=SchoolForm()
@@ -48,13 +51,15 @@ def studentSignUpView(request):
         form=StudentProfileForm(request.POST)
         if form.is_valid():
             username=form.cleaned_data['name']
-            user=User.objects.create_user(username=username,userType="student")
-            user.set_password(username[:3]+"@123")
-            user.save()
+            userdata=User.objects.create_user(username=username,userType="student")
+            userdata.set_password(username[:3]+"@123")
+            userdata.save()
             data=form.save(commit=False)
-            data.user=user
+            data.user=userdata
             data.save()
-            return redirect('BaseApp:Login')
+            messages.success(request, f" The name of {userdata} profile  has been created.")
+
+            return redirect('BaseApp:Home')
     else:
         form=StudentProfileForm()
     context={

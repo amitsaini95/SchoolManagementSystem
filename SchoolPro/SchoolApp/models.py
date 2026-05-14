@@ -8,7 +8,6 @@ class SchoolProfileModel(models.Model):
     code=models.IntegerField(null=True)
     SchoolEmail=models.EmailField(max_length=100)
     SchoolPhoneNo=models.IntegerField(null=True)
-
     SchoolAddress=models.TextField()
     SchoolEmail=models.EmailField(max_length=100)
     PrincipleName=models.CharField(max_length=100)
@@ -21,3 +20,12 @@ class SchoolProfileModel(models.Model):
     def __str__(self):
         return self.name
 
+class EmailSchoolNotificationModel(models.Model):
+    user=models.ForeignKey(SchoolProfileModel, on_delete=models.CASCADE)
+    content=models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.name
+    
