@@ -7,6 +7,10 @@ GENDER=(
     ('Female','Female'),
     ('Other','Other')
 )
+seniorClass=(
+    ('XI','XI'),
+    ('XII','XII')
+)
 
 class SessionModel(models.Model):
     start_year = models.DateField()
@@ -26,7 +30,7 @@ class StudentProfileModel(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE,blank=True,null=True)
     name=models.CharField(max_length=50)
     age=models.IntegerField(null=True)
-    studentClass=models.CharField(max_length=50)
+    steamClass=models.CharField(max_length=10,choices=seniorClass)
     gender=models.CharField(max_length=10,choices=GENDER)
     course=models.ForeignKey(CourseModel,on_delete=models.CASCADE,related_name="studentCourses",blank=True,null=True)
     phoneNo=models.IntegerField(null=True)
@@ -56,15 +60,20 @@ class AttendanceSubjectModel(models.Model):
     sessionYearId = models.ForeignKey(SessionModel, on_delete=models.CASCADE)
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
-    objects = models.Manager()
-
-
+    class Meta:
+        verbose_name_plural="Subject Based on Attendance"
+    def __str__(self):
+        return f" {self.subject.name} on  {self.attendanceDate} date" 
+    
 
 class AttendanceReport(models.Model):
     # Individual Student Attendance
     student = models.ForeignKey(StudentProfileModel, on_delete=models.DO_NOTHING)
-    attendanceId = models.ForeignKey(AttendanceSubjectModel, on_delete=models.CASCADE)
+    attendance = models.ForeignKey(AttendanceSubjectModel, on_delete=models.CASCADE)
     status = models.BooleanField(default=False)
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
-    objects = models.Manager()
+
+    def __str__(self):
+        return f"{self.student.user} on {self.attendance.attendanceDate} date"
+    
