@@ -5,7 +5,7 @@ from django.contrib.auth  import authenticate, login,logout
 # Create your views here.
 from StudentApp.forms import StudentProfileForm
 from django.contrib import messages
-
+from StudentApp.models import *
 from .models import User
 from django.http import HttpResponseRedirect,HttpResponse
 def HomeView(request):
@@ -35,7 +35,7 @@ def schoolSignUpView(request):
         form=SchoolForm(request.POST)
         if form.is_valid():
             username=form.cleaned_data['name']
-            user,created=User.objects.get_or_create(username=username,userType="school")
+            user=User.objects.create(username=username,userType="school")
             user.set_password(username[:3]+"@123")
             user.save()
             data=form.save(commit=False)
@@ -47,25 +47,27 @@ def schoolSignUpView(request):
         form=SchoolForm()
     return render(request,"schoolSignup.html",context={'form':form})
 def studentSignUpView(request):
-    if request.method == "POST":
-        form=StudentProfileForm(request.POST)
-        if form.is_valid():
-            username=form.cleaned_data['name']
-            userdata=User.objects.create_user(username=username,userType="student")
-            userdata.set_password(username[:3]+"@123")
-            userdata.save()
-            data=form.save(commit=False)
-            data.user=userdata
-            data.save()
-            messages.success(request, f" The name of {userdata} profile  has been created.")
+    
+        if request.method == "POST":
+            
+            form=StudentProfileForm(request.POST)
+            if form.is_valid():
+                username=form.cleaned_data['name']
+                userdata=User.objects.create(username=username,userType="student")
+                userdata.set_password(username[:3]+"@123")
+                userdata.save()
+                data=form.save(commit=False)
+                data.user=userdata
+                data.save()
+                messages.success(request, f" The name of {userdata} profile  has been created.")
 
-            return redirect('BaseApp:Home')
-    else:
-        form=StudentProfileForm()
-    context={
-        'form':form
-    }     
-    return render(request,"studentSignup.html",context)
+                return redirect('BaseApp:Home')
+        else:
+            form=StudentProfileForm()
+        context={
+            'form':form
+        }     
+        return render(request,"studentSignup.html",context)
 
 def LogoutView(request):
     logout(request)

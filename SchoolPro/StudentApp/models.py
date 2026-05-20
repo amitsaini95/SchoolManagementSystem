@@ -1,7 +1,9 @@
 from django.db import models
 from SchoolApp.models import *
 from BaseApp.models import User
+from TeacherApp.models import TeacherProfileModel
 # Create your models here.
+
 GENDER=(
     ('Male','Male'),
     ('Female','Female'),
@@ -53,27 +55,18 @@ class SubjectModel(models.Model):
         return self.course.name
 
   
-class AttendanceSubjectModel(models.Model):
-    # Subject Attendance
-    subject = models.ForeignKey(SubjectModel, on_delete=models.DO_NOTHING)
-    attendanceDate = models.DateField()
-    sessionYearId = models.ForeignKey(SessionModel, on_delete=models.CASCADE)
-    createdAt = models.DateTimeField(auto_now_add=True)
-    updatedAt = models.DateTimeField(auto_now=True)
-    class Meta:
-        verbose_name_plural="Subject Based on Attendance"
-    def __str__(self):
-        return f" {self.subject.name} on  {self.attendanceDate} date" 
+
     
 
 class AttendanceReport(models.Model):
-    # Individual Student Attendance
-    student = models.ForeignKey(StudentProfileModel, on_delete=models.DO_NOTHING)
-    attendance = models.ForeignKey(AttendanceSubjectModel, on_delete=models.CASCADE)
+    staff=models.ForeignKey('TeacherApp.TeacherProfileModel', on_delete=models.CASCADE)
+    student = models.ForeignKey('StudentProfileModel', on_delete=models.DO_NOTHING)
+    subject=models.ForeignKey('SubjectModel',on_delete=models.CASCADE)
+    attendanceDate=models.DateField()
     status = models.BooleanField(default=False)
     createdAt = models.DateTimeField(auto_now_add=True)
     updatedAt = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.student.user} on {self.attendance.attendanceDate} date"
+        return f"{self.student.user} on {self.attendanceDate} date"
     
