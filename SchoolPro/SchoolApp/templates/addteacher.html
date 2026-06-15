@@ -1,0 +1,9 @@
+{% extends 'core.html' %}
+{% block SchoolDashBoard %}
+<h4 class="text-center my-2">Add Teacher</h4>
+<form method="post" action="">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit" class="btn btn-primary my-2">Add</button>
+</form>
+{% endblock %}

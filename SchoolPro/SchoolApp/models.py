@@ -1,6 +1,7 @@
 from django.db import models
 from BaseApp.models import User
 from StudentApp.models import StudentProfileModel
+from TeacherApp.models import TeacherProfileModel
 # Create your models here.
 class SchoolProfileModel(models.Model):
     admin=models.ForeignKey(User, on_delete=models.CASCADE,blank=True,null=True)
@@ -8,6 +9,8 @@ class SchoolProfileModel(models.Model):
     code=models.IntegerField(null=True)
     SchoolEmail=models.EmailField(max_length=100)
     SchoolPhoneNo=models.IntegerField(null=True)
+    students=models.ManyToManyField(StudentProfileModel,blank=True)
+    teachers=models.ManyToManyField(TeacherProfileModel,blank=True)
     SchoolAddress=models.TextField()
     SchoolEmail=models.EmailField(max_length=100)
     PrincipleName=models.CharField(max_length=100)

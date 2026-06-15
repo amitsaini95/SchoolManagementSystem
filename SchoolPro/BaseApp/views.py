@@ -40,34 +40,13 @@ def schoolSignUpView(request):
             user.save()
             data=form.save(commit=False)
             data.admin=user
+            
             data.save()
          
             return redirect('BaseApp:Login')
     else:
         form=SchoolForm()
     return render(request,"schoolSignup.html",context={'form':form})
-def studentSignUpView(request):
-    
-        if request.method == "POST":
-            
-            form=StudentProfileForm(request.POST)
-            if form.is_valid():
-                username=form.cleaned_data['name']
-                userdata=User.objects.create(username=username,userType="student")
-                userdata.set_password(username[:3]+"@123")
-                userdata.save()
-                data=form.save(commit=False)
-                data.user=userdata
-                data.save()
-                messages.success(request, f" The name of {userdata} profile  has been created.")
-
-                return redirect('BaseApp:Home')
-        else:
-            form=StudentProfileForm()
-        context={
-            'form':form
-        }     
-        return render(request,"studentSignup.html",context)
 
 def LogoutView(request):
     logout(request)

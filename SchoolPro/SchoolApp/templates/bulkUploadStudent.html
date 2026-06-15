@@ -1,0 +1,8 @@
+{% extends 'core.html' %}
+{% block SchoolDashBoard %}
+<form method="post" action="{% url 'SchoolApp:ShowbulkstudentList' %}" enctype="multipart/form-data" >
+    {% csrf_token %}
+    <input type="file" name="uploadStudentBuk" required>
+    <button type="submit" class="btn btn-primary my-2">Bulk upload Student</button>
+</form>
+{% endblock %}

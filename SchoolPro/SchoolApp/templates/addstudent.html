@@ -1,9 +1,59 @@
 {% extends 'core.html' %}
 {% block SchoolDashBoard %}
 <h4 class="text-center my-2">Add Student</h4>
-<form method="post" action="">
+
+<form method="post"  id="studentform" enctype="multipart/form-data">
     {% csrf_token %}
-    {{form}}
-    <button type="submit" class="btn btn-primary my-2">Add</button>
+    {% for field in form %}
+ 
+    <div class="fieldWrapper">
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }}
+    </div>
+  
+{% endfor %}
+
+
+
+    <button  type="submit" class="btn btn-primary my-2" id="stuSubmitBtn">Add</button>
 </form>
+<script>
+
+const studentform=document.getElementById("studentform")
+const selectValue=document.getElementById("id_stuclass")
+const stuSubmitBtn=document.getElementById("stuSubmitBtn")
+const courseID=document.getElementById("id_courses")
+
+selectValue.addEventListener("change",(event)=>{
+
+        const selectvalue=event.target.value;
+        const url="{% url 'SchoolApp:CourseSelectOption' %}"
+      
+          $.ajax({
+                  type:"POST", 
+                  url: url,
+                  headers: { 'X-CSRFToken': $('[name=csrfmiddlewaretoken]').val() },
+                  data:JSON.stringify(selectvalue),     // Data sent to the server
+                  dataType:"json",    // Expected response format (JSON, XML, etc.)
+                  success: function(data) {  
+                  
+                  courseID.innerHTML='<option value="" >select Course</option>'
+                  for(let i=0;i<data.length;i++){
+                      courseID.innerHTML+=`<option value="${data[i]['id']}">${data[i]['name']}</option>`
+  
+                  }
+              },
+              
+                  error: function(xhr, status, error) {
+                      console.error(error);
+                  }
+          });
+    
+    
+          
+      })
+
+
+</script>
 {% endblock %}
+

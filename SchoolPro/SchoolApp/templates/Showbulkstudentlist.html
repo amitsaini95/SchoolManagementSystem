@@ -1,0 +1,97 @@
+{% extends 'core.html' %}
+{% block SchoolDashBoard %}
+<form method="post" enctype="multipart/form-data"  id="myform"  >
+    {% csrf_token %}
+   
+   <table class="table  table-striped border">
+  <thead>
+    <tr>
+      <th scope="col">S.No</th>
+      <th scope="col">Name</th>
+      <th scope="col">Age</th>
+      <th scope="col">Gender</th>
+      <th scope="col">Email</th>
+      <th scope="col">Class</th>
+      <th scope="col">Phone No</th>
+      <th scope="col">School Name</th>
+      <th scope="col" >Action</th>
+
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+        {% for student  in data %}
+        <td class="studentCounter">{{forloop.counter}}</td>
+        <td><input type="text" name="name" value={{student.name}} required class="stuName"></td>
+        <td><input type="number" name="age" value={{student.age}}  required class="stuage"></td>
+        <td><select name="gender" class="stugender" id="selectGender">
+           <option value="Male" name="stugender">Male</option>
+           <option value="Female"  name="stugender">Female</option>
+           <option value="Other"  name="stugender">Other</option>
+
+        </select></td>
+
+        <td><input type="email" name="email" value="{{student.email}}"  required class="stuemail"></td>
+       
+        <td><input type="text" name="stuclass" value="{{student.stuclass}}"  required class="stuclass"></td>
+         
+        
+        <td><input type="number" name="phoneNo" value="{{student.phoneNo}}"  required class="stuphoneNo"></td>
+       
+          <td> <a href="#"><i class="bi bi-trash3-fill text-danger px-2"></i></a>
+      </td>
+         
+    </tr>
+    {% endfor %}
+     
+  </tbody>
+</table>
+<button class="btn btn-primary" type="submit"  >add Student</button>
+</form>
+<script>
+
+const myform=document.getElementById("myform")
+let studentName=document.querySelectorAll(".stuName")
+let age=document.querySelectorAll(".stuage")
+let gender=document.querySelectorAll(".stugender")
+let email=document.querySelectorAll(".stuemail")
+let phoneNo=document.querySelectorAll(".stuphoneNo")
+let stuclass=document.querySelectorAll(".stuclass")
+let submissionHistory = [];
+
+myform.addEventListener("submit",(e)=>{
+  studentName.forEach((nameInput,index) => {
+    submissionHistory.push({
+      name: nameInput.value,
+      age:age[index].value,
+      gender:gender[index].value,
+      email:email[index].value,
+      stuclass:stuclass[index].value,
+      phoneNo:phoneNo[index].value,
+    });
+
+
+});
+
+  url="{% url 'SchoolApp:StudentListbulk' %}"
+
+      $.ajax({
+        type: 'POST',
+        url: url,
+        headers: { 'X-CSRFToken': $('[name=csrfmiddlewaretoken]').val() },
+        data: JSON.stringify(submissionHistory),     // Data sent to the server
+        dataType:"html",           // Expected response format (JSON, XML, etc.)
+        success: function(data) {   // Runs if the request is successful
+          console.log("Success:");
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+     
+  myform.reset()
+})
+
+</script>
+{% endblock %}
