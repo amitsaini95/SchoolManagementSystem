@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 LeftSideStuDash ">
+                <h3 class="text-center text-white pt-3">{{request.user}}</h3>
+                <nav class=" studentNavbarMenu">
+                    <ul class="nav flex-column">
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="bi bi-speed-o"></i>dashboard</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">total Students</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link" href="#">attendance</a>
+                        </li>
+                      
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="bi bi-gear px-2 fs-5"></i>Settings</a>
+                        </li>
+                           <li class="nav-item ">
+                                <a href="{% url 'BaseApp:Logout' %}" > <i class="bi bi-box-arrow-in-right px-2 fs-5 "></i>Logout</a>
+                            
+                        </li>     
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-10">
+                {% block TeacherDashBoard %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</section>
+     
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
+   <link rel="stylesheet" href="{% static 'css/teacherDashboard.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</body>
+
+</html>

@@ -9,6 +9,7 @@ from StudentApp.models import *
 from .models import User
 from django.http import HttpResponseRedirect,HttpResponse
 def HomeView(request):
+  
     return render(request,"home.html")
 def LoginView(request):
     if request.method == "POST":
@@ -24,6 +25,8 @@ def LoginView(request):
                     return redirect('StudentApp:StudentDashboard')
                 elif auth.userType=="school":
                     return redirect('SchoolApp:Dashboard')
+                elif auth.userType=="teacher":
+                    return redirect('TeacherApp:Dashboard')
     else:   
         form=LoginForm()
     return  render(request,'login.html',{'form':form})
@@ -51,3 +54,6 @@ def schoolSignUpView(request):
 def LogoutView(request):
     logout(request)
     return redirect('BaseApp:Home')
+def SendOTPView(request):
+    print("...................sending.....................")
+    return render(request,"sendOtp.html")

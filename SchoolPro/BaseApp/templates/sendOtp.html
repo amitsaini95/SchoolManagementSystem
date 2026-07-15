@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row ">
+    <div class="col-3">
+
+<form action="" method="post">
+  <label for="phone">
+  Enter your phone number:
+
+</label>
+
+<input type="tel" id="phone"
+name="phone"
+pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+required />
+<button type="submit" >Submit</button>
+
+</form>
+</div>
+</div>
+{% endblock %}

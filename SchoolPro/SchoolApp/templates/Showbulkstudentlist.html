@@ -38,8 +38,8 @@
          
         
         <td><input type="number" name="phoneNo" value="{{student.phoneNo}}"  required class="stuphoneNo"></td>
-       
-          <td> <a href="#"><i class="bi bi-trash3-fill text-danger px-2"></i></a>
+       <td>{{schoolName}}</td>
+          <td  onclick="deleteRow(this)"><i class="bi bi-trash3-fill text-danger px-2"></i></a>
       </td>
          
     </tr>
@@ -52,7 +52,7 @@
 <script>
 
 const myform=document.getElementById("myform")
-let studentName=document.querySelectorAll(".stuName")
+let studentName='';
 let age=document.querySelectorAll(".stuage")
 let gender=document.querySelectorAll(".stugender")
 let email=document.querySelectorAll(".stuemail")
@@ -60,38 +60,48 @@ let phoneNo=document.querySelectorAll(".stuphoneNo")
 let stuclass=document.querySelectorAll(".stuclass")
 let submissionHistory = [];
 
-myform.addEventListener("submit",(e)=>{
-  studentName.forEach((nameInput,index) => {
-    submissionHistory.push({
-      name: nameInput.value,
-      age:age[index].value,
-      gender:gender[index].value,
-      email:email[index].value,
-      stuclass:stuclass[index].value,
-      phoneNo:phoneNo[index].value,
+    myform.addEventListener("submit",(e)=>{
+      e.preventDefault()
+      studentName=document.querySelectorAll('.stuName')
+       studentName.forEach((nameInput,index) => {
+        submissionHistory.push({
+          name: nameInput.value,
+          age:parseInt(age[index].value),
+          gender:gender[index].value,
+          email:email[index].value,
+          stuclass:stuclass[index].value,
+          phoneNo:parseInt(phoneNo[index].value),
+        });
+
+
     });
 
+      url="{% url 'SchoolApp:StudentListbulk' %}"
 
-});
+          $.ajax({
+            type: 'POST',
+            url: url,
+            headers: { 'X-CSRFToken': $('[name=csrfmiddlewaretoken]').val() },
+            data: JSON.stringify(submissionHistory),     // Data sent to the server
+            dataType:"html",           // Expected response format (JSON, XML, etc.)
+            success: function(data) {   // Runs if the request is successful
+              console.log("Success:");
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+        
+      myform.reset()
+    }) 
 
-  url="{% url 'SchoolApp:StudentListbulk' %}"
 
-      $.ajax({
-        type: 'POST',
-        url: url,
-        headers: { 'X-CSRFToken': $('[name=csrfmiddlewaretoken]').val() },
-        data: JSON.stringify(submissionHistory),     // Data sent to the server
-        dataType:"html",           // Expected response format (JSON, XML, etc.)
-        success: function(data) {   // Runs if the request is successful
-          console.log("Success:");
-        },
-        error: function(xhr, status, error) {
-            console.error(error);
-        }
-    });
-     
-  myform.reset()
-})
+function deleteRow(row){
+ let parentEle=row.parentElement
+ row.parentElement.remove()
+ let  getRowdata=document.querySelectorAll(".stuName")
+studentName.innerHTML=getRowdata
 
+}
 </script>
 {% endblock %}

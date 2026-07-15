@@ -4,10 +4,9 @@ from StudentApp.models import StudentProfileModel
 from TeacherApp.models import TeacherProfileModel
 # Create your models here.
 class SchoolProfileModel(models.Model):
-    admin=models.ForeignKey(User, on_delete=models.CASCADE,blank=True,null=True)
+    admin=models.ForeignKey(User, on_delete=models.CASCADE,blank=True,null=True,related_name="schoolUser")
     name=models.CharField(max_length=150)
     code=models.IntegerField(null=True)
-    SchoolEmail=models.EmailField(max_length=100)
     SchoolPhoneNo=models.IntegerField(null=True)
     students=models.ManyToManyField(StudentProfileModel,blank=True)
     teachers=models.ManyToManyField(TeacherProfileModel,blank=True)

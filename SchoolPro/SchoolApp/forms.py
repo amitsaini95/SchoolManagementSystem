@@ -21,7 +21,7 @@ class AddStudentSchoolForm(forms.ModelForm):
     class Meta:
         model=StudentProfileModel
         fields=('__all__')
-        exclude=('user','schoolName')
+        exclude=('user','schoolName','courses')
 class AddSchoolTeacherForm(forms.ModelForm):
     class Meta:
         model=TeacherProfileModel

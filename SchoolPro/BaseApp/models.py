@@ -13,5 +13,9 @@ from django.utils import timezone
 
 class User(AbstractUser):
     userType=models.CharField(choices=user_type, max_length=50,default="admin")
+    phoneNumber=models.IntegerField(blank=True,null=True)
+    isVerified=models.BooleanField(default=False)
+    otp=models.CharField(max_length=6)
     def __str__(self):
         return self.username
+       

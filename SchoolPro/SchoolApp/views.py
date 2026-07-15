@@ -7,14 +7,70 @@ from StudentApp.models import StudentProfileModel,CourseModel
 from .forms import *
 from BaseApp.models import User
 from django.db.models import Q
-from django.utils.datastructures import MultiValueDictKeyError
 # Create your views here.
 import json
-import threading
-from django.core.serializers import serialize
+from django.template.loader import get_template, render_to_string
+from xhtml2pdf import pisa
 import csv
 from django.contrib.auth.hashers import make_password
 import pandas as pd
+import threading
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+
+def generatePDFView(request):
+ # 1. Initialize a byte stream buffer
+    buffer = io.BytesIO()
+    
+    # 2. Setup the Document
+    doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=30, leftMargin=30, topMargin=30, bottomMargin=30)
+    story = []
+    
+    # 3. Retrieve your QuerySet data
+    # Tip: Optimize your query with select_related / prefetch_related if needed
+    StudentListData = StudentProfileModel.objects.all()
+    
+    # 4. Construct table data grid (Header row + Data rows)
+    table_data = [['ID', 'Name', 'Age','gender','email','phoneNo','SchoolName']] # Columns layout
+    for counter, student in enumerate(StudentListData, start=1):
+        table_data.append([
+            str(counter),
+            str(student.name),
+            str(student.age),
+            str(student.gender),
+            str(student.email),
+            str(student.phoneNo),
+            str(student.schoolName)
+           
+        ])
+        
+    # 5. Build and Style the ReportLab Table
+    pdf_table = Table(table_data)
+    pdf_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1a365d')), # Navy Header
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, 0), 11),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 8),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor('#f7fafc')), # Row background
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#e2e8f0')), # Grid lines
+        ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 1), (-1, -1), 10),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+    ]))
+    
+    # 6. Add elements to layout story and render
+    story.append(pdf_table)
+    doc.build(story)
+    
+    # 7. Reset buffer pointer and return file
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename='studentList.pdf')
 # Create your views here.
 def SchoolProfileView(request):
     schoolInstance=SchoolProfileModel.objects.get(admin=request.user)
@@ -31,7 +87,7 @@ def SchoolProfileView(request):
     }
     return render(request,"schoolprofile.html",context)
 def DashboardView(request):
-  
+
     schoolstudentCount=SchoolProfileModel.objects.get(admin=request.user).students.all().count()
     schoolteacherCount=SchoolProfileModel.objects.get(admin=request.user).teachers.all().count()
     context={
@@ -73,8 +129,11 @@ def AddStudentView(request):
     schoolName=SchoolProfileModel.objects.get(admin=request.user)
 
     if request.method =="POST":
-        Coursedata=CourseModel.objects.get(id=request.POST.get('courses'))
-
+        Coursedata=None
+        try:
+            Coursedata=CourseModel.objects.get(id=request.POST.get('courses'))
+        except:
+            pass
         stuName=request.POST.get('name')
         user=User.objects.create(username=stuName,userType="student")
         user.set_password(stuName[:3]+"@123")
@@ -83,7 +142,10 @@ def AddStudentView(request):
         gender=request.POST.get('gender'),stuclass=request.POST.get('stuclass'),courses=Coursedata,
         phoneNo=request.POST.get('phoneNo'),email=request.POST.get('email'),schoolName=schoolName
         )
-  
+        student=StudentProfileModel.objects.filter(schoolName=schoolName)
+        for stu in student:
+            schoolName.students.add(stu)
+            schoolName.save()
     form=AddStudentSchoolForm()
     
     context={'form':form}
@@ -95,8 +157,10 @@ def DeleteStudentView(request,id):
     user.delete()
     return redirect('SchoolApp:StudentList')
 def TeacherListView(request):
-
-    return render(request,"TeacherList.html")
+    schoolName=SchoolProfileModel.objects.get(admin=request.user)
+    teacherList=TeacherProfileModel.objects.filter(newSchoolName=schoolName)
+    context={'schoolTeacherList':teacherList}
+    return render(request,"TeacherList.html",context)
 
 def AddTeacherView(request):
     if request.method == "POST":
@@ -125,7 +189,7 @@ def BulkuploadStudentView(request):
     return render(request,"bulkUploadStudent.html")
 
 def ShowbulkstudentlistView(request):
-
+    schoolName=SchoolProfileModel.objects.get(admin=request.user)
     searchWord = request.POST.get('uploadStudentBuk','')
     print(searchWord)
     if request.method =="POST" and request.FILES.get('uploadStudentBuk'):
@@ -133,29 +197,33 @@ def ShowbulkstudentlistView(request):
         if file is not None:
             df = pd.read_csv(file)
             data = df.to_dict(orient='records')
-            return render(request,"Showbulkstudentlist.html",context={'data':data})
+            return render(request,"Showbulkstudentlist.html",context={'data':data,'schoolName':schoolName})
     return redirect('SchoolApp:Dashboard')
  
 def studentListbulkView(request):
-    schoolName=SchoolProfileModel.objects.get(admin=request.user)
     studentList=[]
+    schoolName=SchoolProfileModel.objects.get(admin=request.user)
     if request.method == 'POST':
         studentData=json.loads(request.body)
-        user_instaces=[
-            User(
-                username=data["name"],
-                userType="student",
-                password=make_password(data['name'][:3]+"@123")
-            )for data in studentData]
-        User.objects.bulk_create(user_instaces)
+        
+      
+        for data in studentData:
+
+            User.objects.create_user(username=data['name'],password=data['name'],userType="student")
         studentList=[StudentProfileModel(**item,schoolName=schoolName,user=User.objects.get(username=item['name'])) for item in studentData]
         studata=StudentProfileModel.objects.bulk_create(studentList)
-        for stu in studata:
-            schoolName.students.set(studata)
+        student=StudentProfileModel.objects.filter(schoolName=schoolName)
+        for stu in student:
+            schoolName.students.add(stu)
             schoolName.save()
 
-        return redirect('SchoolApp:Dashboard')
+      
+
+       
     return HttpResponse("dskf")
+
+ 
+
 
 def CourseSelectView(request):
 

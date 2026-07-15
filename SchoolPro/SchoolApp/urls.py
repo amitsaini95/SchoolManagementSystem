@@ -13,7 +13,7 @@ urlpatterns=[
     path('bulkuploadStudent',views.BulkuploadStudentView,name="BulkuploadStudent"),
     path('Showbulkstudentlist',views.ShowbulkstudentlistView,name="ShowbulkstudentList"),
     path('studentListbulk',views.studentListbulkView,name="StudentListbulk"),
-    path('courseSelect',views.CourseSelectView,name="CourseSelectOption")
-    
+    path('courseSelect',views.CourseSelectView,name="CourseSelectOption"),
+    path('generate_pdf',views.generatePDFView,name="generatePdf")
     
 ]

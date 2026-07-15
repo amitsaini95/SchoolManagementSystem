@@ -11,6 +11,11 @@
         <h6>{{schoolteacherCount}}</h6>
         <h6></h6>
     </div>
-     
+    
+</div>
+<div class="row">
+    <div class="col-12">
+        <a href="{% url 'SchoolApp:generatePdf' %}"><button class="btn btn-primary">generate Pdf</button></a>
+    </div>
 </div>
 {% endblock %}

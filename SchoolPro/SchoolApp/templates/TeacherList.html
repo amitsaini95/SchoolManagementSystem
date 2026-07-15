@@ -7,17 +7,15 @@
   </div>
   <div class="row">
   <div class="col-12">
-  {% if schoolteacherList %}
+  {% if schoolTeacherList %}
 <table class="table  table-striped border">
   <thead>
     <tr>
       <th scope="col">S.No</th>
       <th scope="col">Name</th>
       <th scope="col">Age</th>
-      <th scope="col">Gender</th>
-      <th score="col">Class</th>
+
       <th scope="col">Email</th>
-      <th scope="col">phone No</th>
       <th scope="col">School Name</th>
       <th scope="col" >Action</th>
 
@@ -25,16 +23,15 @@
   </thead>
   <tbody>
     
-    {% for student in schoolteacherList %}
+    {% for teacher in schoolTeacherList %}
     <tr>
       <th scope="row">{{forloop.counter}}</th>
-      <td>{{student.name}}</td>
-      <td>{{student.age}}</td>
-      <td>{{student.gender}}</td>
-      <td>{{student.studentClass}}</td>
-      <td>{{student.email}}</td>
-      <td>{{student.phoneNo}}</td>
-      <td>{{student.schoolName}}</td>
+      <td>{{teacher.name}}</td>
+      <td>{{teacher.age}}</td>
+  
+      <td>{{teacher.email}}</td>
+  
+      <td>{{teacher.newSchoolName}}</td>
       <td><a href=""><i class="bi bi-pencil-square text-warning  px-2"></i></a>
        <a href=""><i class="bi bi-trash3-fill text-danger px-2"></i></a>
       </td>
